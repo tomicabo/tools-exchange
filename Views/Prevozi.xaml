@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="Orodjarne.Views.Prevozi"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Orodjarne.Views"
+             mc:Ignorable="d" >
+    
+    <Grid MinHeight="480" Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel Grid.Column="0" Orientation="Vertical" Width="180">
+                <TextBlock Text="MOŽNOSTI" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <RadioButton Height="30" Name="rb_iskalci_prevozov" Style="{StaticResource side_menu_button}" Content="ISKALCI PREVOZOV" Checked="rb_iskalci_prevozov_Checked"/>
+                <RadioButton Height="30" Name="rb_moji_prevozi" Style="{StaticResource side_menu_button}" Content="MOJI PREVOZI" Checked="rb_moji_prevozi_Checked"/>
+            </StackPanel>
+        </Grid>
+
+        <!--ISKALCI PREVOZOV-->
+        <Grid Name="grid_iskalci_prevozov" Grid.Column="1" Margin="30,0,0,0" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="ISKALCI PREVOZOV" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <ListBox Name="lb_iskalci_prevozi" Height="Auto" ItemsSource="{Binding PrevoziPrevozniki}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5" BorderThickness="0,0.7,0,0.7" Background="White" BorderBrush="#424242">
+                                <StackPanel Orientation="Vertical" Height="70" Width="auto">
+                                    <Grid Background="#913591" Height="25">
+                                        <TextBlock Margin="8,3,0,0" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left">
+                                            <Run Text="{Binding StartLokacija}"></Run>
+                                            <Run Text=" - "></Run>
+                                            <Run Text="{Binding CiljLokacija}"></Run>
+                                        </TextBlock>
+                                        <TextBlock Margin="0,7,8,0" HorizontalAlignment="Right" Foreground="#E2E2E2" FontSize="9" FontWeight="Bold">
+                                            <Run Text="OBJAVLJENO: "></Run>
+                                            <Run Text="{Binding Ustvarjeno, StringFormat=dd-MM-yyyy}"></Run>
+                                        </TextBlock>
+                                    </Grid>
+                                    <Grid Margin="3">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                            <TextBlock Margin="5,0,0,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Left">
+                                                 <Run Text="Datum prevoza: "></Run>
+                                                 <Run Text="{Binding DatumPrevoza, StringFormat=dd-MM-yyyy}"></Run>
+                                            </TextBlock>
+                                            <TextBlock Margin="5,0,0,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Left">
+                                                 <Run Text="Čas Prevoza: "></Run>
+                                                 <Run Text="{Binding CasPrevoza, StringFormat=dd-MM-yyyy}"></Run>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="30,0,0,0">
+                <TextBlock Text="PODROBNOSTI" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <TextBlock Text="PODJETJE" Height="25" HorizontalAlignment="Left" Padding="4" Margin="5,0"></TextBlock>
+                <TextBlock Text="ODGOVORNA OSEBA" Height="25" HorizontalAlignment="Left" Padding="4" Margin="5,0"></TextBlock>
+                <TextBlock Text="KRAJ" Height="25" HorizontalAlignment="Left" Padding="4" Margin="5,0"></TextBlock>
+                <TextBlock Text="TEL ST" Height="25" HorizontalAlignment="Left" Padding="4" Margin="5,0"></TextBlock>
+                <TextBlock Text="EMAIL" Height="25" HorizontalAlignment="Left" Padding="4" Margin="5,0"></TextBlock>
+
+                <TextBlock Text="POŠLJI SPOROČILO " Margin="0,10,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="25" Width="120" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <TextBox x:Name="tb_sporocilo" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="100" TextWrapping="Wrap" Text="" Width="350" AcceptsReturn="True"/>
+                <Button x:Name="btn_email" VerticalAlignment="Bottom" Content="Pošlji Sporočilo" Margin="0,10,0,0" Width="130" Height="23" HorizontalAlignment="Right" Click="btn_sporocilo_Click" />
+
+            </StackPanel>
+        </Grid>
+        
+        <!--MOJI PREVOZI-->
+        <Grid Name="grid_moji_prevozi" Grid.Column="1" Margin="30,0,0,0" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="MOJI PREVOZI" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+
+                <ListBox Name="lb_moji_prevozi" Height="Auto" ItemsSource="{Binding PrevoziPrevozniki}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5" BorderThickness="0,0.7,0,0.7" Background="White" BorderBrush="#424242">
+                                <StackPanel Orientation="Vertical" Height="70" Width="auto">
+                                    <Grid Background="#913591" Height="25">
+                                        <TextBlock Margin="8,3,0,0" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left">
+                                            <Run Text="{Binding StartLokacija}"></Run>
+                                            <Run Text=" - "></Run>
+                                            <Run Text="{Binding CiljLokacija}"></Run>
+                                        </TextBlock>
+                                        <TextBlock Margin="0,7,8,0" HorizontalAlignment="Right" Foreground="#E2E2E2" FontSize="9" FontWeight="Bold">
+                                            <Run Text="OBJAVLJENO: "></Run>
+                                            <Run Text="{Binding Ustvarjeno, StringFormat=dd-MM-yyyy}"></Run>
+                                        </TextBlock>
+                                    </Grid>
+                                    <Grid Margin="3">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                            <TextBlock Margin="5,0,0,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Left">
+                                                 <Run Text="Datum prevoza: "></Run>
+                                                 <Run Text="{Binding DatumPrevoza, StringFormat=dd-MM-yyyy}"></Run>
+                                            </TextBlock>
+                                            <TextBlock Margin="5,0,0,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Left">
+                                                 <Run Text="Čas Prevoza: "></Run>
+                                                 <Run Text="{Binding CasPrevoza, StringFormat=dd-MM-yyyy}"></Run>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="30,0,0,0">
+                <TextBlock Text="DODAJ / UREDI" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <Button Name="btn_pocisti" Margin="0,10,30,20" Content="Počisti" HorizontalAlignment="Right" Width="90" Click="btn_pocisti_Click"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="170"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Right">
+                        <TextBlock Text="DATUM PREVOZA" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="ČAS PREVOZA" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="OD" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="DO" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="DODATNE INFORMACIJE" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,20"></TextBlock>
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <DatePicker Name="dp_datum_prevoza" Width="100" Height="25" HorizontalAlignment="Left" Foreground="#FF424242" Style="{DynamicResource DatePickerStyle1}"/>
+                        <ComboBox Name="cb_cas_prevoza" MaxDropDownHeight="200" DropDownOpened="cb_cas_prevoza_DropDownOpened">
+                            <ComboBoxItem>00:00</ComboBoxItem>
+                            <ComboBoxItem>00:15</ComboBoxItem>
+                            <ComboBoxItem>00:30</ComboBoxItem>
+                            <ComboBoxItem>00:45</ComboBoxItem>
+                            <ComboBoxItem>01:00</ComboBoxItem>
+                            <ComboBoxItem>01:15</ComboBoxItem>
+                            <ComboBoxItem>01:30</ComboBoxItem>
+                            <ComboBoxItem>01:45</ComboBoxItem>
+                            <ComboBoxItem>02:00</ComboBoxItem>
+                            <ComboBoxItem>02:15</ComboBoxItem>
+                            <ComboBoxItem>02:30</ComboBoxItem>
+                            <ComboBoxItem Name="focus">02:45</ComboBoxItem>
+                        </ComboBox>
+                        <TextBox Name="tb_od" TextWrapping="Wrap" Text="" Height="24" Width="170" HorizontalAlignment="Left"/>
+                        <TextBox Name="tb_do" TextWrapping="Wrap" Text="" Height="24" Width="170" HorizontalAlignment="Left"/>
+
+
+                        <TextBox Name="tb_opis" MaxLength="160" HorizontalAlignment="Left" Margin="0,20,0,0" Height="80" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170"/>
+
+                        <Button Name="btn_dodaj_prevoz" Margin="0,10,0,0" Content="Dodaj Oglas" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90" Click="btn_dodaj_prevoz_Click"/>
+                        <Button Name="btn_uredi_prevoz" Margin="0,10,0,0" Content="Uredi Oglas" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

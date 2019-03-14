@@ -1,0 +1,63 @@
+﻿<Window x:Class="Orodjarne.Views.PKInsert"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Orodjarne.Views"
+        mc:Ignorable="d"
+        Title="PKInsert" Closing="Window_Closing">
+    <Grid MinHeight="480" Margin="0,20,0,0">
+
+        <Grid Name="grid_delo" Grid.Column="0" Margin="30,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Name="listbox_header" Text="" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <ListBox Name="lb_pd" Height="Auto" ItemsSource="{Binding VrsteDela}" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,0.7" BorderBrush="#424242">
+                                <TextBlock Padding="4,4" Height="25" VerticalAlignment="Center" Text="{Binding VrstaDela}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Name="lb_pk" Height="Auto" ItemsSource="{Binding VrsteStroja}" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,0.7" BorderBrush="#424242">
+                                <TextBlock Padding="4,4" Height="25" VerticalAlignment="Center" Text="{Binding VrstaStroja}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Name="sp_proste_kapacitete" Grid.Column="1" Margin="30,0,0,0" Visibility="Visible">
+                <TextBlock Text="PODATKI O DELU" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="170"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Right">
+                        <TextBlock Text="ZAČETEK" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="KONEC" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                        <TextBlock Text="DODATNE INFORMACIJE" Height="25" HorizontalAlignment="Right" Padding="4" Margin="0,20,5,0"></TextBlock>
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <DatePicker Name="dp_datum_zacetka_pk" Width="100" Height="25" HorizontalAlignment="Left" Foreground="#FF424242" Style="{DynamicResource DatePickerStyle1}"/>
+                        <DatePicker Name="dp_datum_konca_pk" Width="100" Height="25" HorizontalAlignment="Left"/>
+                        <TextBox Name="tb_opis_pk" HorizontalAlignment="Left" Margin="0,20,0,0" Height="80" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170"/>
+
+                        <Button Name="btn_oddaj_oglas_pk" Margin="0,30,0,0" Content="Oddaj oglas" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90" Click="btn_oddaj_oglas_pk_Click"/>
+
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

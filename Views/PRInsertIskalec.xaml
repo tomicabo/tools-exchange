@@ -1,0 +1,57 @@
+﻿<Window x:Class="Orodjarne.Views.PRInsertIskalec"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Orodjarne.Views"
+        mc:Ignorable="d"
+        Title="PRInsertIskalec">
+    <Grid>
+        <StackPanel Grid.Column="1" Margin="30,0,0,0">
+            <Button Name="btn_pocisti" Margin="0,10,30,20" Content="Počisti" HorizontalAlignment="Right" Width="90"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="170"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Text="DATUM PREVOZA" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                    <TextBlock Text="ČAS PREVOZA" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                    <TextBlock Text="OD" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                    <TextBlock Text="DO" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,0"></TextBlock>
+                    <TextBlock Text="DODATNE INFORMACIJE" Height="25" HorizontalAlignment="Right" Padding="4" Margin="5,20"></TextBlock>
+
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <DatePicker Name="dp_datum_prevoza" Width="100" Height="25" HorizontalAlignment="Left" Foreground="#FF424242" Style="{DynamicResource DatePickerStyle1}"/>
+                    <ComboBox Name="cb_cas_prevoza" MaxDropDownHeight="200">
+                        <ComboBoxItem>00:00</ComboBoxItem>
+                        <ComboBoxItem>00:15</ComboBoxItem>
+                        <ComboBoxItem>00:30</ComboBoxItem>
+                        <ComboBoxItem>00:45</ComboBoxItem>
+                        <ComboBoxItem>01:00</ComboBoxItem>
+                        <ComboBoxItem>01:15</ComboBoxItem>
+                        <ComboBoxItem>01:30</ComboBoxItem>
+                        <ComboBoxItem>01:45</ComboBoxItem>
+                        <ComboBoxItem>02:00</ComboBoxItem>
+                        <ComboBoxItem>02:15</ComboBoxItem>
+                        <ComboBoxItem>02:30</ComboBoxItem>
+                        <ComboBoxItem Name="focus">02:45</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox Name="tb_od" TextWrapping="Wrap" Text="" Height="24" Width="170" HorizontalAlignment="Left"/>
+                    <TextBox Name="tb_do" TextWrapping="Wrap" Text="" Height="24" Width="170" HorizontalAlignment="Left"/>
+
+
+                    <TextBox Name="tb_opis" MaxLength="160" HorizontalAlignment="Left" Margin="0,20,0,0" Height="80" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170"/>
+
+                    <Button Name="btn_dodaj_prevoz" Margin="0,10,0,0" Content="Dodaj Oglas" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90" Click="btn_dodaj_prevoz_Click"/>
+                    <Button Name="btn_uredi_prevoz" Margin="0,10,0,0" Content="Uredi Oglas" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>

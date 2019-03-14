@@ -1,0 +1,332 @@
+﻿<UserControl x:Class="Orodjarne.Views.ListaPonudb"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Orodjarne.Views"
+             xmlns:viewModel ="clr-namespace:Orodjarne.ViewModels"
+             xmlns:converts="clr-namespace:Orodjarne"
+             xmlns:y="clr-namespace:Orodjarne"
+             mc:Ignorable="d" >
+    
+    <UserControl.Resources>
+        <y:ByteArrayToImageConverter x:Key="ByteToImage"/>
+    </UserControl.Resources>
+
+
+       
+
+    
+    <Grid MinHeight="480" Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="380"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!--<Border BorderBrush="Gray" BorderThickness="1" Padding="0" CornerRadius="3" Margin="5" HorizontalAlignment="Left">
+                <StackPanel Margin="10,10" Orientation="Vertical">
+                    <Label Content="Vrsta oglasov" HorizontalAlignment="Left" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="120" FontSize="14"/>
+                    <ComboBox x:Name="comboBox" HorizontalAlignment="Right" Margin="0,5,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="comboBox_SelectionChanged" Height="33">
+                        <ComboBoxItem  Content="Vse"/>
+                        <ComboBoxItem  Content="Prosta dela"/>
+                        <ComboBoxItem  Content="Proste kapacitete delovnih strojev"/>
+                    </ComboBox>
+                    <Label x:Name="labelVrstaDela" Content="Vrsta dela" HorizontalAlignment="Left" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontFamily="Bitstream Vera Sans Mono"/>
+                    <ListBox x:Name="listBox" ItemsSource="{Binding VrsteDela}" SelectionMode="Multiple" SelectionChanged="listBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <TextBlock Text="{Binding VrstaDela}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </StackPanel>
+            </Border>-->
+        <Grid Grid.Column="0">
+            <StackPanel Grid.Column="0" Orientation="Vertical" Width="180">
+                <TextBlock Text="VRSTE OGLASOV" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="120" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <!--<RadioButton Height="30" Name="btn_vrsta_vse" Style="{StaticResource side_menu_button}" Checked="btn_vrsta_vse_Checked">PRIKAŽI VSE</RadioButton>-->
+                <RadioButton Height="30" Name="btn_vrsta_prosta_dela" Style="{StaticResource side_menu_button}" Checked="btn_vrsta_prosta_dela_Checked">ISKANJE DELA</RadioButton>
+                <RadioButton Height="30" Name="btn_vrsta_proste_kapacitete" Style="{StaticResource side_menu_button}" Checked="btn_vrsta_proste_kapacitete_Checked">PROSTE KAPACITETE</RadioButton>
+                <RadioButton Height="30" Name="btn_vrsta_prevozi" Style="{StaticResource side_menu_button}" Checked="btn_vrsta_prevozi_Checked">PREVOZI</RadioButton>
+
+                <TextBlock Name="labelVrstaDela" Text="FILTER" Foreground="#424242" HorizontalAlignment="Left" Height="25" Margin="0,10,0,0" VerticalAlignment="Top" Width="120" FontSize="13" FontWeight="Bold" Visibility="Collapsed" />
+                <ListBox Name="lb_vrste_dela" ItemsSource="{Binding VrsteDela}" SelectionMode="Multiple" SelectionChanged="listBox_SelectionChanged" Visibility="Collapsed">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,0.7" BorderBrush="#424242">
+                                <TextBlock Padding="4,4" Height="25" VerticalAlignment="Center" Text="{Binding VrstaDela}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Name="lb_vrste_strojev" ItemsSource="{Binding VrsteStroja}" SelectionMode="Multiple" SelectionChanged="listBox_SelectionChanged" Visibility="Collapsed">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#919191">
+                                <TextBlock Padding="4,4" Height="25" VerticalAlignment="Center" Text="{Binding VrstaStroja}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Margin="30,0,0,0" HorizontalAlignment="Stretch">
+            <ListBox x:Name="list_ponudbe" Margin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding ListaPonudb}" SelectionChanged="UpdateSelectedItem" Visibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" MinWidth="550" MaxWidth="800">
+
+                <ListBox.ItemTemplate>
+                    
+                    <DataTemplate>
+                        
+                        <Border Margin="5" BorderThickness="0,0.7,0,0.7" Background="White" BorderBrush="#424242">
+                            <!--<StackPanel Orientation="Vertical" Height="100" Width="{Binding ActualWidth, ElementName=list_ponudbe, Mode=OneWay}">-->
+
+                            <StackPanel Orientation="Vertical" Height="130" Width="Auto">
+                            <!--<Grid Background="#913591">-->
+                                <Grid Background="#7893C1">
+                                    <!--DODAJ BINDING-->
+                                    <TextBlock Margin="3,3,3,0" HorizontalAlignment="Left" Foreground="#E2E2E2" FontSize="9" FontWeight="Bold">
+                                        <!--<TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TipOglasa}" Value="1">
+                                                        <Setter Property="Text" Value="NUDIM DELO"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding TipOglasa}" Value="2">
+                                                        <Setter Property="Text" Value="PROSTE KAPACITETE"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>-->
+                                        <Run Text="{Binding TipOglasa}"></Run>
+                                    </TextBlock>
+                                    <TextBlock Margin="3,3,3,0" HorizontalAlignment="Right" Foreground="#E2E2E2" FontSize="9" FontWeight="Bold">
+                                            <Run Text="OBJAVLJENO: "></Run>
+                                            <Run Text="{Binding Ustvarjeno, StringFormat=dd-MM-yyyy}"></Run>
+                                    </TextBlock>
+                                </Grid>
+                                <Grid Background="#7893C1">
+                                    <TextBlock Margin="3,3,0,3" Text="{Binding VrstaDela}" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock HorizontalAlignment="Right">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Priponke}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                            <Image Source="/Orodjarne;component/Images/icons8-attach-100.png" Height="25"></Image>
+                                    </TextBlock>
+                                </Grid>
+                                <Grid Margin="3">
+                                    <TextBlock Height="auto" Margin="5,25,250,0" Foreground="#424242" TextWrapping="Wrap">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Opis}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                                <Run Text="{Binding Opis}"></Run>
+                                    </TextBlock>
+                                    
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                            <TextBlock Margin="0,5,5,0" Text="{Binding UporabnikiPodjetje}" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                            <TextBlock Margin="0,0,5,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Right">
+                                                <Run Text="Kraj: "></Run>
+                                                <Run Text="{Binding UporabnikiKraj}"></Run>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Grid Width="100" VerticalAlignment="Top">
+                                            <Image Source="{Binding Logo, Converter={StaticResource ByteToImage}}" HorizontalAlignment="Right" MaxHeight="60"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid>
+                                    
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox x:Name="list_prevozi" Margin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding PrevoziPrevozniki}" SelectionChanged="UpdateSelectedItem" Visibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" MinWidth="550" MaxWidth="800">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" BorderThickness="0,0.7,0,0.7" Background="White" BorderBrush="#424242">
+                            <StackPanel Orientation="Vertical" Height="130" Width="Auto">
+                                <Grid Background="#913591">
+                                    <TextBlock Margin="3,3,3,0" HorizontalAlignment="Right" Foreground="#E2E2E2" FontSize="9" FontWeight="Bold">
+                                            <Run Text="OBJAVLJENO: "></Run>
+                                            <Run Text="{Binding Ustvarjeno, StringFormat=dd-MM-yyyy}"></Run>
+                                    </TextBlock>
+                                </Grid>
+                                <Grid Background="#913591">
+                                    <TextBlock Margin="8,3,0,0" Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left">
+                                            <Run Text="{Binding StartLokacija}"></Run>
+                                            <Run Text=" - "></Run>
+                                            <Run Text="{Binding CiljLokacija}"></Run>
+                                    </TextBlock>
+                                </Grid>
+                                <Grid Margin="3">
+                                    <TextBlock Height="auto" Margin="5,25,250,0" Foreground="#424242" TextWrapping="Wrap">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Opis}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                                <Run Text="{Binding Opis}"></Run>
+                                    </TextBlock>
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                            <TextBlock Margin="0,5,5,0" Text="{Binding UporabnikiPodjetje}" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                            <TextBlock Margin="0,0,5,0" Foreground="#424242" FontWeight="Bold" HorizontalAlignment="Right">
+                                                <Run Text="Kraj: "></Run>
+                                                <Run Text="{Binding UporabnikiKraj}"></Run>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Grid Width="100" VerticalAlignment="Top">
+                                            <Image Source="{Binding Logo, Converter={StaticResource ByteToImage}}" HorizontalAlignment="Right" MaxHeight="60"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Column="2" Margin="30,0,0,0">
+            <StackPanel Name="sp_podrobnosti">
+                <TextBlock Name="tb_podrobnosti" Text="PODROBNOSTI" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="120" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <TextBlock Name="tb_vrsta_dela" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="VRSTA DELA: "></Run>
+                    <Run Text="{Binding SelectedItem.VrstaDela, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_vrsta_stroja" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="VRSTA STROJA: "></Run>
+                    <Run Text="{Binding SelectedItem.VrstaDela, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_dimenzije" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="DIMENZIJE: "></Run>
+                    <Run Text="{Binding SelectedItem.Dimenzije, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_teza" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="TEŽA: "></Run>
+                    <Run Text="{Binding SelectedItem.Teza, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_material" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" >
+                    <Run Text="MATERIAL: "></Run>
+                    <Run Text="{Binding SelectedItem.Material, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_datum_zacetka" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="DATUM ZAČETKA DELA: "></Run>
+                    <Run Text="{Binding SelectedItem.DatumZacetka, ElementName=list_ponudbe, StringFormat=dd-MM-yyyy}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_datum_konca" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="DATUM PREDVIDENE IZDELAVE: "></Run>
+                    <Run Text="{Binding SelectedItem.DatumKonca, ElementName=list_ponudbe, StringFormat=dd-MM-yyyy}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_datum_zacetka_pk" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="DATUM FRAJ STROJA: "></Run>
+                    <Run Text="{Binding SelectedItem.DatumZacetka, ElementName=list_ponudbe, StringFormat=dd-MM-yyyy}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_datum_konca_pk" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="DATUM KU STROJ NI FRAJ: "></Run>
+                    <Run Text="{Binding SelectedItem.DatumKonca, ElementName=list_ponudbe, StringFormat=dd-MM-yyyy}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_cena" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="CENA: "></Run>
+                    <Run Text="{Binding SelectedItem.Cena, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+
+                <TextBlock Name="tb_podatki_o_ponudniku" Text="PODATKI O PONUDNIKU" Margin="0,10,0,0" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="Auto" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <TextBlock HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="{Binding SelectedItem.UporabnikiPodjetje, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_odgovorna_oseba" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="{Binding SelectedItem.UporabnikiOdgovornaOseba, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_kraj" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="{Binding UporabnikiKraj}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_tel_st" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="TEL. ŠT.: "></Run>
+                    <Run Text="{Binding SelectedItem.UporabnikiTelSt, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="tb_email" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
+                    <Run Text="EMAIL: "></Run>
+                    <Run Text="{Binding SelectedItem.UporabnikiEmail, ElementName=list_ponudbe}"></Run>
+                </TextBlock>
+                <TextBlock Name="priponke_text" Text="PRIPONKE" Margin="0,10,0,0" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="120" FontSize="13" FontWeight="Bold" Foreground="#424242" Visibility="Collapsed"/>
+
+                <ListBox Name="listBox_priponke" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="350" Visibility="Collapsed">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Padding="4,4" Height="25" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Name="download_priponka" Content="Prenesi Priponko" Height="25" Width="130" HorizontalAlignment="Right" Margin="0,10,0,0" Click="download_priponka_Click" Visibility="Collapsed"></Button>
+
+            </StackPanel>
+
+            <StackPanel Name="sp_sporocilo" Orientation="Vertical" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                <TextBlock Text="POŠLJI SPOROČILO " Margin="0,10,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="25" Width="120" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                <TextBox x:Name="tb_sporocilo" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="100" TextWrapping="Wrap" Text="" Width="350" AcceptsReturn="True"/>
+                <Button x:Name="btn_email" VerticalAlignment="Bottom" Content="Pošlji Sporočilo" Margin="0,10,0,0" Width="130" Height="23" HorizontalAlignment="Right" Click="btn_sporocilo_Click" />
+            </StackPanel>
+
+
+
+
+
+
+            <!--<TextBox x:Name="tb_priponka1" Visibility="Collapsed" HorizontalAlignment="Left" Height="22" Margin="0,416,0,-97" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" AcceptsReturn="True"/>
+            <TextBox x:Name="tb_priponka2" Visibility="Collapsed" HorizontalAlignment="Left" Height="22" Margin="0,443,0,-124" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" AcceptsReturn="True"/>
+            <TextBox x:Name="tb_priponka3" Visibility="Collapsed" HorizontalAlignment="Left" Height="22" Margin="0,470,0,-151" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" AcceptsReturn="True"/>
+            <Button x:Name="btn_priponka1" Visibility="Collapsed" Content="Prenesi priponko" Width="107" Height="23" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_priponka1_click" Margin="0,416,0,-98" />
+            <Button x:Name="btn_priponka2" Visibility="Collapsed" Content="Prenesi priponko" Width="107" Height="23" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_priponka2_click" Margin="0,442,0,-124" />
+            <Button x:Name="btn_priponka3" Visibility="Collapsed" Content="Prenesi priponko" Width="107" Height="23" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_priponka3_click" Margin="0,469,0,-151" />-->
+
+
+        </Grid>
+        
+        <!--SKRITE SPREMENLJIVKE-->
+        <Grid>
+            <Label Visibility="Collapsed" x:Name="lbl_idponudbe" Content="{Binding SelectedItem.IdPonudbe, ElementName=list_ponudbe}"/>
+            <Label Visibility="Collapsed" x:Name="lbl_id_uporabnika" Content="{Binding SelectedItem.IdUporabnika, ElementName=list_ponudbe}"/>
+            <Label Visibility="Collapsed" x:Name="lbl_priponke" Content="{Binding SelectedItem.Priponke, ElementName=list_ponudbe}"/>
+            <Label Visibility="Collapsed" x:Name="lbl_tip_oglasa" Content="{Binding SelectedItem.TipOglasa, ElementName=list_ponudbe}"/>
+
+
+            <Label Visibility="Hidden" x:Name="lbl_vrsta_dela" Content="{Binding SelectedItem.VrstaDela, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="200"/>
+            <Label Visibility="Hidden" x:Name="lbl_vrsta_orodja" Content="{Binding SelectedItem.VrstaOrodja, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,30,0,0" VerticalAlignment="Top" Width="200"/>
+            <Label Visibility="Hidden" x:Name="lbl_cena" Content="{Binding SelectedItem.Cena, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,50,0,0" VerticalAlignment="Top" Width="200"/>
+            <Label Visibility="Hidden" x:Name="lbl_datum_zacetka" Content="{Binding SelectedItem.DatumZacetka, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,122,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
+            <Label Visibility="Hidden" x:Name="lbl_datum_konca"  Content="{Binding SelectedItem.DatumKonca, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,152,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
+            <Label Visibility="Hidden" x:Name="lbl_opis" Content="{Binding SelectedItem.Opis, ElementName=list_ponudbe}" HorizontalAlignment="Left" Height="30" Margin="10,182,0,0" VerticalAlignment="Top" Width="220" FontSize="16"/>
+
+            <Label x:Name="lbl_podjetje" Visibility="Hidden" Content="{Binding SelectedItem.UporabnikiPodjetje, ElementName=list_ponudbe}" HorizontalAlignment="Right" Height="30" Margin="0,10,10,0" VerticalAlignment="Top" Width="153"/>
+            <Label x:Name="lbl_odgovorna_oseba" Visibility="Hidden" Content="{Binding SelectedItem.UporabnikiOdgovornaOseba, ElementName=list_ponudbe}" HorizontalAlignment="Right" Height="30" Margin="0,30,10,0" VerticalAlignment="Top" Width="153"/>
+            <Label x:Name="lbl_tel_st" Visibility="Hidden" Content="{Binding SelectedItem.UporabnikiTelSt, ElementName=list_ponudbe}" HorizontalAlignment="Right" Height="30" Margin="0,50,10,0" VerticalAlignment="Top" Width="153"/>
+            <Label x:Name="lbl_email" Visibility="Hidden" Content="{Binding SelectedItem.UporabnikiEmail, ElementName=list_ponudbe}" HorizontalAlignment="Right" Height="30" Margin="0,70,10,0" VerticalAlignment="Top" Width="205"/>
+
+        </Grid>
+    </Grid>
+</UserControl>
